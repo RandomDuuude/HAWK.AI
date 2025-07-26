@@ -1,5 +1,4 @@
 const express = require("express");
-const multer = require("multer");
 const { Storage } = require("@google-cloud/storage");
 const cors = require("cors");
 require("dotenv").config();
@@ -10,6 +9,11 @@ const PORT = process.env.PORT || 3000;
 // Enable CORS
 app.use(cors());
 
+// Middleware to parse JSON with larger limit for base64 images
+app.use(express.json({ 
+  limit: '10mb' // Increased limit to handle base64 encoded images
+}));
+
 // Initialize Google Cloud Storage
 const storage = new Storage({
   projectId: process.env.GOOGLE_CLOUD_PROJECT_ID,
@@ -18,42 +22,69 @@ const storage = new Storage({
 
 const bucket = storage.bucket(process.env.GOOGLE_CLOUD_BUCKET_NAME);
 
-// Configure multer for memory storage
-const upload = multer({
-  storage: multer.memoryStorage(),
-  limits: {
-    fileSize: 5 * 1024 * 1024, // 5MB limit
-  },
-  fileFilter: (req, file, cb) => {
-    if (file.mimetype.startsWith("image/")) {
-      cb(null, true);
-    } else {
-      cb(new Error("Only image files are allowed!"), false);
-    }
-  },
-});
+// Helper function to convert base64 to buffer
+function base64ToBuffer(base64String) {
+  // Remove data URL prefix if present (e.g., "data:image/png;base64,")
+  const base64Data = base64String.replace(/^data:image\/[a-z]+;base64,/, "");
+  return Buffer.from(base64Data, 'base64');
+}
 
-// Single image upload endpoint
-app.post("/upload-image", upload.single("image"), async (req, res) => {
+// Helper function to detect image type from base64 string
+function getImageTypeFromBase64(base64String) {
+  if (base64String.startsWith('data:image/')) {
+    const match = base64String.match(/data:image\/([a-zA-Z0-9]+);base64,/);
+    return match ? match[1] : 'png';
+  }
+  return 'png'; // Default to PNG
+}
+
+// Base64 image upload endpoint
+app.post("/upload-image", async (req, res) => {
   try {
-    if (!req.file) {
+    const { image, filename } = req.body;
+
+    // Validate required fields
+    if (!image) {
       return res.status(400).json({
         success: false,
-        error: "No image file provided",
+        error: "No base64 image data provided",
       });
     }
 
-    // Generate unique filename
+    // Convert base64 to buffer
+    let imageBuffer;
+    try {
+      imageBuffer = base64ToBuffer(image);
+    } catch (error) {
+      return res.status(400).json({
+        success: false,
+        error: "Invalid base64 image data",
+      });
+    }
+
+    // Check file size (5MB limit)
+    if (imageBuffer.length > 5 * 1024 * 1024) {
+      return res.status(400).json({
+        success: false,
+        error: "File too large. Maximum size is 5MB.",
+      });
+    }
+
+    // Detect original image type
+    const originalImageType = getImageTypeFromBase64(image);
+
+    // Generate unique filename with PNG extension
     const timestamp = Date.now();
-    const fileName = `images/${timestamp}_${req.file.originalname}`;
+    const baseFilename = filename ? filename.replace(/\.[^/.]+$/, "") : `image_${timestamp}`;
+    const fileName = `uploaded_images/${timestamp}_${baseFilename}.png`;
 
     // Create file in bucket
     const file = bucket.file(fileName);
 
-    // Upload the file
-    await file.save(req.file.buffer, {
+    // Upload the file as PNG
+    await file.save(imageBuffer, {
       metadata: {
-        contentType: req.file.mimetype,
+        contentType: 'image/png',
       },
     });
 
@@ -69,11 +100,12 @@ app.post("/upload-image", upload.single("image"), async (req, res) => {
       message: "Image uploaded successfully",
       fileName: fileName,
       publicUrl: publicUrl,
-      size: req.file.size,
-      mimetype: req.file.mimetype,
+      size: imageBuffer.length,
+      originalType: originalImageType,
+      convertedType: 'png',
     });
 
-    console.log(`✅ Image uploaded: ${fileName}`);
+    console.log(`✅ Image uploaded: ${fileName} (converted from ${originalImageType} to PNG)`);
   } catch (error) {
     console.error("Upload error:", error);
     res.status(500).json({
@@ -84,29 +116,26 @@ app.post("/upload-image", upload.single("image"), async (req, res) => {
   }
 });
 
+// Health check endpoint
+app.get("/health", (req, res) => {
+  res.json({ status: "Server is running!" });
+});
+
 // Error handling middleware
 app.use((error, req, res, next) => {
-  if (error.code === "LIMIT_FILE_SIZE") {
-    return res.status(400).json({
-      success: false,
-      error: "File too large. Maximum size is 5MB.",
-    });
-  }
-
-  if (error.message === "Only image files are allowed!") {
-    return res.status(400).json({
-      success: false,
-      error: "Only image files are allowed",
-    });
-  }
-
+  console.error("Global error handler:", error);
   res.status(500).json({
     success: false,
-    error: error.message,
+    error: error.message || "Internal server error",
   });
 });
 
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
   console.log(`📤 Upload endpoint: POST http://localhost:${PORT}/upload-image`);
+  console.log(`📋 Expected request body format:`);
+  console.log(`   {`);
+  console.log(`     "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA...",`);
+  console.log(`     "filename": "optional-custom-name" (optional)`);
+  console.log(`   }`);
 });
