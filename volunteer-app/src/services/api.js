@@ -1,7 +1,8 @@
 // src/services/api.js
-import axios from 'axios';
+import axios from "axios";
 
-const BACKEND_URL = 'http://localhost:3000/upload-image'; // Not needed for mock
+const BACKEND_URL =
+  "https://us-central1-hawkai-e3970.cloudfunctions.net/api/upload-image"; // Not needed for mock
 
 export const uploadImageToServer = async (base64, filename) => {
   const payload = {
@@ -11,7 +12,7 @@ export const uploadImageToServer = async (base64, filename) => {
 
   const response = await axios.post(BACKEND_URL, payload, {
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
   });
 
@@ -20,9 +21,9 @@ export const uploadImageToServer = async (base64, filename) => {
 
 export async function sendLostFoundQuery(name, file) {
   console.log(`[Mock] Searching for person: ${name}`);
-  await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate delay
+  await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate delay
   return {
     name,
-    imageUrl: 'https://via.placeholder.com/200x200.png?text=Found+Person'
+    imageUrl: "https://via.placeholder.com/200x200.png?text=Found+Person",
   };
 }
