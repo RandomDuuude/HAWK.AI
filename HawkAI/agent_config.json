@@ -1,0 +1,9 @@
+{
+  "displayName": "HawkAI-Safety-Monitor",
+  "defaultLanguageCode": "en",
+  "timeZone": "Asia/Kolkata",
+  "description": "HawkAI Safety Monitoring Agent for proactive event safety analysis",
+  "enableStackdriverLogging": true,
+  "apiVersion": "API_VERSION_V3_BETA",
+  "tier": "TIER_STANDARD"
+}

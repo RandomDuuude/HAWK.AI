@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "hawkai-467107",
+  "private_key_id": "e56e3268003445571ddaa9ee93b851fbe6953ba4",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDWbFvt6TPu7HvO\nNRtIOw2yc0YDxiXZoz3a80c965dq0xNx/sRUrFFkGa0+BrwYov5JexpyPc4hAfHz\nCcnSjygXSfUviZ/x+Gst5sYmxIaCzWno9E8iXQv+E2tTVw6DaS7XwrHmpY0OKlFx\nwuDCepEVmQUAaE1Sg/uqmF0hwizLgtvFFl0g2ubN0ONLc9Ft5FdoMk+zvOgKdqud\nwEXbTASUDJxD6bITkpOGLhyhyy+x4QNZtF66oLJFtvEfCWTL7S1HSxd1QkfytHVm\npdv+YK/8JGfTL3z5qXvPUZaHrI4hZBjHTZqNYrePe8SsRTrvK7mFq3x+W5DCTyqu\nrH/tWooXAgMBAAECggEAF+pHCI55hdznZBTlQZWgjfYwaWxYvWDpHboDiKL1pOr8\n4Lp/EEiV3VnFykS7Bu5q+SwbQ4GkM2dBoo9FbNAdsxdDGvW5GqZP4fM6x4kkzYL2\nnI5fIyCInWJyFn3/tuVs3ZCwAd8WD+3lXpBTPC2qb+O8vJJliV4CHEFZJdI/58Sw\nq+SjFRsvRSnKk/Uby7q50feNUcRvnZ27gtU+Vse3iXNLqXP3Zy46uFlHK+g4veKE\nYvUBwB1FXuBTKhuef+wjwdDTtaIOlExsUf8/YbvuY0EzNqkJnewWZZC3A0lfbYKW\njAb2JDwMDuS6APdlAFcFEBSda4T+C9LjXkNKQgoYfQKBgQD9o45rumhXOhKsEeXM\n0YduZjB1BrcnMdn6Sp9sdTKC5mAVdWG0TM+si2qWUT/bz6Q9yy9cfawl4zl344jO\nKcS2JcGKv1ed/NGfruHrSX3kJUdvCDrECsZBlwnrQQvxjIVBQfdt/h7bX0bfTWV8\ndgGYzgIn+yY+Z13pQEu2I980pQKBgQDYa1k5J1OsyqOo734FbAfR/bQyyEdj7bOB\ncjPF6GIHJRcmYUXSEArKT4B0f73KXM77nZDN3+YMpqfHojJy0i/mxKLV1wEEwzC4\nvToBunYLu2ttvTxVpQRiCRmlbVBvypPbFtJOj10Q/MhzfKEownd/MC/D/FsKARxl\nqDZ/URh7CwKBgD+lE+7KVrZUlyzgTNapWR+FuvESn1DRfI4GvZxciDE6l6+qxbqV\nb6MvVK6lcq24m9D5tEe0LUdQjjIcQU7iQj8mmDs1qkm1j/BO1NfSmClwhU1CNmTN\nA1SgDtgeeV3CUgm/ANRz6NBJRyJvbGDfx6TNRNM9fSo5i+IkxRrOQ4sVAoGBAKqZ\nxNXnCHD3tJehYwhHJssEYZ5+frhpUs3CBsoF6/CR7nPUzkNPXhIpJauwXx48lvWG\nOfXwf9qNLUmTtI0K37PcYjiLqkPk0m1uzWE7aX7KGV+CgyNIV/IoFk1vpK7bVD6q\n+NHw9X5EpodTQX9t/OEITT8DmYiDY61HMt6eQNwNAoGBANMc1Ci7BeURaw5xEtd9\ndLncFfJXjXrfrwgc8vOq1NsS1zF87maPYQDytpInJxcfHrE6FgeYrBCF5hCvuwFN\nFIHizgg/tCs9Q4RQZF6SHv9yPsTSw8LPSWrnXYrdP4NVYVXEimW2VGoeTEBbUAeT\n0f9kmlPUUrjeJuYudbLixFH2\n-----END PRIVATE KEY-----\n",
+  "client_email": "hawkai-agent@hawkai-467107.iam.gserviceaccount.com",
+  "client_id": "107404377759781298244",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/hawkai-agent%40hawkai-467107.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
